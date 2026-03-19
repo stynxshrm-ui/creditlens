@@ -21,6 +21,7 @@ def main():
     print(f"Connecting to {DB_PATH}")
     con = duckdb.connect(str(DB_PATH))
 
+
     for table in TABLES:
         parquet_path = TABLE_PATH / f"{table}.parquet"
 
@@ -49,7 +50,6 @@ def main():
         FROM loans l
         JOIN borrowers b USING (loan_id)
         JOIN outcomes  o USING (loan_id)
-        JOIN payments  p USING (loan_id)
     """).fetchdf()
 
     print(result.to_string(index=False))

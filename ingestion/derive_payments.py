@@ -28,25 +28,22 @@ OUT_PATH   = Path("data/tables")
 
 
 def load_source(con) -> pd.DataFrame:
-    """Load the fields we need for derivation from DuckDB."""
     return con.execute("""
         SELECT
             l.loan_id,
             l.issue_date,
             l.term_months,
             l.installment,
-            p.total_pymnt,
-            p.last_pymnt_d,
-            p.last_pymnt_amnt,
+            o.total_pymnt,
+            o.last_pymnt_d,
+            o.last_pymnt_amnt,
             o.default_flag
         FROM loans    l
-        JOIN payments p USING (loan_id)
         JOIN outcomes o USING (loan_id)
         WHERE l.term_months IS NOT NULL
           AND l.installment  > 0
           AND l.issue_date   IS NOT NULL
     """).fetchdf()
-
 
 def parse_dates(df: pd.DataFrame) -> pd.DataFrame:
     """Parse Lending Club date strings — format is 'Jan-2015'."""
@@ -122,6 +119,7 @@ def main():
     print(f"  Wrote {out_path} ({out_path.stat().st_size / 1e6:.1f} MB)")
 
     # Register in DuckDB
+    con.execute("DROP TABLE IF EXISTS monthly_payments")
     con.execute(f"""
         CREATE OR REPLACE TABLE monthly_payments AS
         SELECT * FROM read_parquet('{out_path}')

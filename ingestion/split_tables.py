@@ -57,13 +57,30 @@ OUTCOME_COLS = [
 def load_raw(sample: int = None) -> pd.DataFrame:
     print(f"Loading raw CSV {'(full)' if sample is None else f'(sample={sample:,})'}")
 
-    # Read in chunks to handle 1.6GB file gracefully
     if sample:
-        df = pd.read_csv(
-            RAW_PATH,
-            nrows=sample,
-            low_memory=False,
-        )
+        # Count total rows first without loading data
+        print("  counting rows...")
+        total_rows = sum(1 for _ in open(RAW_PATH)) - 1  # subtract header
+
+        # Pick random row indices to keep
+        import random
+        random.seed(42)
+        keep = set(random.sample(range(total_rows), sample))
+
+        # Read only those rows
+        print(f"  reading {sample:,} random rows from {total_rows:,} total...")
+        chunks = []
+        rows_seen = 0
+        for chunk in pd.read_csv(RAW_PATH, chunksize=100_000, low_memory=False):
+            chunk_indices = [
+                i for i in range(len(chunk))
+                if (rows_seen + i) in keep
+            ]
+            if chunk_indices:
+                chunks.append(chunk.iloc[chunk_indices])
+            rows_seen += len(chunk)
+
+        df = pd.concat(chunks, ignore_index=True)
     else:
         chunks = []
         for chunk in pd.read_csv(RAW_PATH, chunksize=100_000, low_memory=False):
@@ -71,7 +88,7 @@ def load_raw(sample: int = None) -> pd.DataFrame:
             print(f"  loaded {sum(len(c) for c in chunks):,} rows...", end="\r")
         df = pd.concat(chunks, ignore_index=True)
 
-    print(f"\nRaw shape: {df.shape}")
+    print(f"Raw shape: {df.shape}")
     return df
 
 
