@@ -50,14 +50,6 @@ OUTCOME_COLS = [
     "collection_recovery_fee", "last_pymnt_d", "last_pymnt_amnt",
 ]
 
-# Payment behaviour columns — used to derive monthly payment rows
-PAYMENT_SOURCE_COLS = [
-    "id", "issue_d", "term", "installment",
-    "total_pymnt", "total_rec_prncp", "total_rec_int",
-    "last_pymnt_amnt", "last_pymnt_d",
-]
-
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -171,45 +163,6 @@ def build_outcomes(df: pd.DataFrame) -> pd.DataFrame:
     outcomes["default_flag"] = df["default_flag"].values
     return outcomes
 
-
-def build_payments_simple(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Derive a simplified monthly payment table from Lending Club's
-    cumulative payment fields.
-
-    Lending Club does not provide month-by-month payment history —
-    only cumulative totals. We derive a single payment behaviour
-    summary row per loan as a proxy. Full monthly derivation requires
-    the PMTHIST dataset (not available in this public release).
-
-    This table captures: payment ratio (paid vs expected),
-    payment completion, and implied delinquency signal.
-
-    Note: documented in README as a known simplification.
-    Full temporal features are built in features/payment_features.sql
-    using available proxy signals.
-    """
-    cols = [c for c in PAYMENT_SOURCE_COLS if c in df.columns]
-    pay = df[cols].copy()
-    pay = pay.rename(columns={"id": "loan_id", "issue_d": "issue_date"})
-
-    # Total expected payment over loan life
-    pay["term_months"] = df["term"].str.extract(r"(\d+)").astype(float)
-    pay["total_expected"] = pay["installment"] * pay["term_months"]
-
-    # Payment ratio — how much of expected was actually paid
-    pay["payment_ratio"] = (
-        pay["total_pymnt"] / pay["total_expected"]
-    ).clip(0, 1.5)  # cap at 150% to handle overpayments
-
-    # Last payment amount relative to installment
-    pay["last_pymnt_ratio"] = (
-        pay["last_pymnt_amnt"] / pay["installment"]
-    ).clip(0, 2)
-
-    return pay
-
-
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -224,13 +177,11 @@ def main(sample: int = None):
     loans     = build_loans(df)
     borrowers = build_borrowers(df)
     outcomes  = build_outcomes(df)
-    payments  = build_payments_simple(df)
 
     print("\nWriting Parquet files...")
     write_parquet(loans,     "loans")
     write_parquet(borrowers, "borrowers")
     write_parquet(outcomes,  "outcomes")
-    write_parquet(payments,  "payments")
 
     print("\nDone. Run ingestion/load_duckdb.py to register tables.")
 
