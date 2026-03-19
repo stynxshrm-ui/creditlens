@@ -1,0 +1,8 @@
+week0/
+data/
+*.duckdb
+mlruns/
+.env
+__pycache__/
+*.pyc
+.DS_Store
