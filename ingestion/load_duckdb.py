@@ -14,8 +14,8 @@ from pathlib import Path
 DB_PATH    = Path("data/creditlens.duckdb")
 TABLE_PATH = Path("data/tables")
 
-TABLES = ["loans", "borrowers", "outcomes", "payments"]
-
+TABLES = ["loans", "borrowers", "outcomes"]
+# monthly_payments registered separately by ingestion/derive_payments.py
 
 def main():
     print(f"Connecting to {DB_PATH}")
