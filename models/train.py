@@ -34,6 +34,12 @@ def main(model: str):
     if model == "scorecard":
         from models.scorecard.scorecard import train_scorecard
         metrics, _ = train_scorecard(df)
+    elif model == "xgboost":
+        from models.pd.xgboost_model import train_xgboost
+        metrics, _, _, _ = train_xgboost(df)
+    elif model == "neural_net":
+        from models.pd.neural_net import train_neural_net
+        metrics = train_neural_net(df)
     else:
         raise ValueError(f"Unknown model: {model}")
 
@@ -43,6 +49,6 @@ def main(model: str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="scorecard",
-                        choices=["scorecard"])
+                        choices=["scorecard", "xgboost", "neural_net"])
     args = parser.parse_args()
     main(args.model)

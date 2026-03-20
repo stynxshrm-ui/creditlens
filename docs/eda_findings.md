@@ -91,3 +91,57 @@ At the portfolio level:
 
 Registered in MLflow as creditlens_champion version 4.
 XGBoost challenger must exceed Gini 0.7727 (+0.02) to justify promotion.
+
+## Model Comparison — Scorecard vs XGBoost
+
+| Metric | Scorecard (Champion) | XGBoost (Challenger) |
+|---|---|---|
+| Gini | 0.7527 | 0.8496 |
+| KS | 0.5969 | 0.6978 |
+| Calibration error | 0.0136 | 0.0188 |
+
+XGBoost exceeds promotion threshold (Gini > 0.7727) by 0.077.
+Qualifies for 30-day shadow deployment before manual promotion.
+
+Top 5 features by SHAP importance (XGBoost):
+1. first_month_ratio       — payment behaviour in month 1
+2. avg_payment_ratio_m6    — average payment over 6 months
+3. min_payment_ratio_m6    — worst single month in observation window
+4. int_rate                — interest rate (risk pricing signal)
+5. grade_numeric           — Lending Club's own risk assessment
+
+Key finding: WoE/IV (scorecard) and SHAP (XGBoost) independently
+rank the same three payment features as most predictive. This
+consistency across two fundamentally different methods confirms
+these features are genuinely informative, not artefacts of
+one modelling approach.
+
+
+## Three-Model Comparison
+
+| Model | Gini | KS | Calibration Error |
+|---|---|---|---|
+| WoE Scorecard (champion) | 0.7527 | 0.5969 | 0.0136 |
+| PyTorch Neural Net | 0.7236 | 0.5458 | 0.0162 |
+| XGBoost (challenger) | 0.8496 | 0.6978 | 0.0188 |
+
+XGBoost enters shadow deployment — Gini delta +0.0969 vs champion.
+Neural net underperforms XGBoost at this dataset size (19k training
+rows). Expected to close the gap on the full 1.2M row dataset.
+All three models meet IFRS 9 calibration requirements (error < 0.05).
+
+
+## Fairness Check — XGBoost (SR 11-7 Requirement)
+
+Gini by income band on holdout set:
+
+| Income band | Gini | Count |
+|---|---|---|
+| <40k | 0.817 | 1,075 |
+| 40-70k | 0.825 | 2,341 |
+| 70-100k | 0.838 | 1,383 |
+| >100k | 0.844 | 1,009 |
+
+Gini spread across bands: 0.027 — within acceptable range.
+No demographic slice shows material performance degradation.
+Model meets SR 11-7 fairness documentation requirements.
