@@ -89,5 +89,5 @@ At the portfolio level:
 - Calibration error: 0.0136 (IFRS 9 compliant)
 - Predicted vs actual default rate: 17.28% vs 16.80%
 
-Registered in MLflow as creditlens_champion version 3.
+Registered in MLflow as creditlens_champion version 4.
 XGBoost challenger must exceed Gini 0.7727 (+0.02) to justify promotion.
