@@ -78,3 +78,16 @@ At the portfolio level:
 - Default rate: 11.9%
 - Average loan amount: $14,997
 - Assumed LGD: 60% (industry standard
+
+## Scorecard Model — Champion Baseline
+
+- Training window: 2007–2016 vintages (29,038 loans)
+- Selected features: int_rate, avg_payment_ratio_m6,
+  min_payment_ratio_m6, first_month_ratio
+- Gini: 0.7527
+- KS: 0.5969
+- Calibration error: 0.0136 (IFRS 9 compliant)
+- Predicted vs actual default rate: 17.28% vs 16.80%
+
+Registered in MLflow as creditlens_champion version 3.
+XGBoost challenger must exceed Gini 0.7727 (+0.02) to justify promotion.
