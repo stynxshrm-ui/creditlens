@@ -39,6 +39,10 @@ PDO        = 20        # 20 points doubles the odds
 FACTOR = PDO / np.log(2)
 OFFSET = BASE_SCORE - FACTOR * np.log(BASE_ODDS)
 
+PLOTS_DIR = Path("outputs/plots")
+PLOTS_DIR.mkdir(parents=True, exist_ok=True)
+REPORTS_DIR = Path("outputs/reports")
+REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Features to include in the scorecard
 # Excludes: loan_id, grade (categorical), issue_date fields,
@@ -201,19 +205,19 @@ def train_scorecard(df: pd.DataFrame) -> dict:
         )
 
         # Log IV summary as artifact
-        iv_path = "iv_summary.csv"
+        iv_path = str(REPORTS_DIR / "iv_summary.csv")
         scorecard.iv_summary_.to_csv(iv_path, index=False)
         mlflow.log_artifact(iv_path)
 
         # Log calibration plot
         fig_cal = plot_calibration(y_test.values, y_prob, "WoE Scorecard")
-        fig_cal.savefig("calibration.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("calibration.png")
+        fig_cal.savefig(PLOTS_DIR / "calibration_scorecard.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "calibration_scorecard.png"))
 
         # Log KS plot
         fig_ks = plot_ks(y_test.values, y_prob, "WoE Scorecard")
-        fig_ks.savefig("ks_plot.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("ks_plot.png")
+        fig_ks.savefig(PLOTS_DIR / "ks_scorecard.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "ks_scorecard.png"))
 
         # Log model
         mlflow.sklearn.log_model(

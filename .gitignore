@@ -9,3 +9,4 @@ __pycache__/
 build_features_test1.py
 .github/co*md
 .github/prompts/*.md
+.env

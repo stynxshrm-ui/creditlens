@@ -7,7 +7,7 @@ Challenger enters promotion workflow if Gini > champion Gini + 0.02.
 Current champion (WoE Scorecard) Gini: 0.7527
 Promotion threshold: Gini > 0.7727
 """
-
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import xgboost as xgb
@@ -23,6 +23,9 @@ except ImportError:
     FrozenEstimator = None
 
 from models.scorecard.evaluate import evaluate_model, plot_calibration, plot_ks
+
+PLOTS_DIR = Path("outputs/plots")
+PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
 CHAMPION_GINI = 0.7527
 PROMOTION_THRESHOLD = CHAMPION_GINI + 0.02
@@ -127,19 +130,19 @@ def train_xgboost(df: pd.DataFrame) -> dict:
             plot_type="bar"
         )
         plt.tight_layout()
-        plt.savefig("shap_importance.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("shap_importance.png")
+        plt.savefig(PLOTS_DIR / "shap_importance.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "shap_importance.png"))
         plt.close()
 
         # Calibration + KS plots
         fig_cal = plot_calibration(y_test.values, y_prob, "XGBoost")
-        fig_cal.savefig("calibration_xgb.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("calibration_xgb.png")
+        fig_cal.savefig(PLOTS_DIR / "calibration_xgboost.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "calibration_xgboost.png"))
         plt.close()
 
         fig_ks = plot_ks(y_test.values, y_prob, "XGBoost")
-        fig_ks.savefig("ks_plot_xgb.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("ks_plot_xgb.png")
+        fig_ks.savefig(PLOTS_DIR / "ks_xgboost.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "ks_xgboost.png"))
         plt.close()
 
         # Log model

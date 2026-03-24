@@ -22,6 +22,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.isotonic import IsotonicRegression
 import mlflow
+from pathlib import Path
 import matplotlib.pyplot as plt
 
 from models.scorecard.evaluate import evaluate_model, plot_calibration, plot_ks
@@ -29,6 +30,8 @@ from models.scorecard.evaluate import evaluate_model, plot_calibration, plot_ks
 # Same features as XGBoost — ensures fair comparison
 from models.pd.xgboost_model import XGB_FEATURES
 
+PLOTS_DIR = Path("outputs/plots")
+PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
 class LoanDataset(Dataset):
     def __init__(self, X: np.ndarray, y: np.ndarray):
@@ -220,14 +223,14 @@ def train_neural_net(df: pd.DataFrame) -> dict:
         ax.set_ylabel("Training loss")
         ax.set_title("Neural Net Training Loss")
         ax.grid(True, alpha=0.3)
-        fig.savefig("nn_loss.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("nn_loss.png")
+        fig.savefig(PLOTS_DIR / "nn_loss.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "nn_loss.png"))
         plt.close()
 
         # Calibration plot
         fig_cal = plot_calibration(y_test, y_prob, "PyTorch NN")
-        fig_cal.savefig("calibration_nn.png", dpi=100, bbox_inches="tight")
-        mlflow.log_artifact("calibration_nn.png")
+        fig_cal.savefig(PLOTS_DIR / "calibration_nn.png", dpi=100, bbox_inches="tight")
+        mlflow.log_artifact(str(PLOTS_DIR / "calibration_nn.png"))
         plt.close()
 
         mlflow.log_metric("final_train_loss", train_losses[-1])

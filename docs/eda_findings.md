@@ -145,3 +145,23 @@ Gini by income band on holdout set:
 Gini spread across bands: 0.027 — within acceptable range.
 No demographic slice shows material performance degradation.
 Model meets SR 11-7 fairness documentation requirements.
+
+## Uplift Model — Restructuring Intervention
+
+Dataset: 7,153 early-struggling borrowers (avg payment ratio < 0.9
+in months 1-3), randomly split 50/50 treatment/control.
+Raw treatment effect: 14.78% → 13.45% default rate (-1.33pp).
+
+T-Learner segment distribution (test set):
+- Safe:         53.6% — recover without intervention
+- Sure things:  21.8% — repay regardless
+- Persuadables: 13.7% — respond to restructuring offer ← TARGET
+- Lost causes:  10.9% — default regardless
+
+Business impact:
+Targeting 14% of at-risk borrowers by uplift score captures 38%
+of preventable defaults — 2.7x improvement over random outreach.
+Ops cost reduced by 86% vs blanket intervention programme.
+
+AUUC: 4.986 (raw cumulative defaults prevented, not normalised).
+
