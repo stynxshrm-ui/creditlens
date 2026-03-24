@@ -46,6 +46,14 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+@app.get("/")
+def root():
+    return {
+        "name":    "CreditLens API",
+        "version": API_VERSION,
+        "docs":    "/docs",
+        "health":  "/v1/health",
+    }
 
 @app.get("/v1/health", response_model=HealthResponse)
 def health():
