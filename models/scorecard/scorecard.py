@@ -221,8 +221,8 @@ def train_scorecard(df: pd.DataFrame) -> dict:
 
         # Log model
         mlflow.sklearn.log_model(
-            scorecard.model,
-            "scorecard_model",
+            sk_model=scorecard.model,
+            name="scorecard_model",
             registered_model_name="creditlens_champion"
         )
 

@@ -2,6 +2,9 @@
 models/uplift/segments.py
 
 Segment classification utilities for uplift model output.
+
+Used by serving/app.py POST /v1/score endpoint
+to classify borrowers at prediction time
 """
 
 import pandas as pd

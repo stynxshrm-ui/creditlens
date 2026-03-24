@@ -146,10 +146,25 @@ def train_xgboost(df: pd.DataFrame) -> dict:
         plt.close()
 
         # Log model
-        mlflow.xgboost.log_model(
-            model, "xgboost_model",
-            registered_model_name="creditlens_challenger"
-        )
+        # mlflow.xgboost.log_model(
+        #     xgb_model=model,
+        #     name="xgboost_model",
+        #     registered_model_name="creditlens_challenger"
+        # )
+
+        # With
+        try:
+            print("Logging XGBoost model to MLflow...")
+            mlflow.xgboost.log_model(
+                xgb_model=model,
+                name="xgboost_model",
+                registered_model_name="creditlens_challenger"
+            )
+            print("Model logged successfully")
+        except Exception as e:
+            print(f"ERROR logging model: {type(e).__name__}: {e}")
+            import traceback
+            traceback.print_exc()
 
         # Promotion check
         print(f"\nChampion Gini:    {CHAMPION_GINI:.4f}")

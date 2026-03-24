@@ -13,6 +13,7 @@ import duckdb
 import pandas as pd
 import mlflow
 from pathlib import Path
+from config import MLFLOW_TRACKING_URI, MLFLOW_EXPERIMENT
 
 DB_PATH = Path("data/creditlens.duckdb")
 
@@ -26,8 +27,8 @@ def load_features() -> pd.DataFrame:
 
 
 def main(model: str):
-    mlflow.set_tracking_uri("mlruns")
-    mlflow.set_experiment("creditlens")
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    mlflow.set_experiment(MLFLOW_EXPERIMENT)
 
     df = load_features()
 

@@ -194,6 +194,18 @@ def train_uplift(df: pd.DataFrame) -> dict:
             verbose=False
         )
 
+        # Log both models so serving layer can load them
+        mlflow.xgboost.log_model(
+            xgb_model=model_control,
+            name="control_model",
+            registered_model_name="creditlens_uplift_control"
+        )
+        mlflow.xgboost.log_model(
+            xgb_model=model_treatment,
+            name="treatment_model",
+            registered_model_name="creditlens_uplift_treatment"
+        )
+
         # Uplift score on test set
         p_control   = model_control.predict_proba(X_test)[:, 1]
         p_treatment = model_treatment.predict_proba(X_test)[:, 1]
