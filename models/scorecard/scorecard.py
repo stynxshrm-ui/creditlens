@@ -110,11 +110,6 @@ class CreditScorecard:
         self.model.fit(X_selected, y)
         return self
 
-    # def predict_proba(self, X: pd.DataFrame) -> np.ndarray:
-    #     X_woe = self.woe_encoder.transform(X[SCORECARD_FEATURES])
-    #     woe_cols = [f"{f}_woe" for f in self.selected_features_]
-    #     return self.model.predict_proba(X_woe[woe_cols])[:, 1]
-
     def predict_proba(self, X: pd.DataFrame) -> np.ndarray:
         X_woe = self.woe_encoder.transform(X[SCORECARD_FEATURES])
         woe_cols = [f"{f}_woe" for f in self.selected_features_]
