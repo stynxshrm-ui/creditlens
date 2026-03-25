@@ -84,7 +84,7 @@ class CreditScorecard:
         self.model       = LogisticRegression(
             C=1.0,
             max_iter=1000,
-            class_weight= "balanced",  # None # handles 11.9% default rate
+            class_weight= "balanced",  # handles default rate imbalance
             random_state=42,
         )
         self.selected_features_ = []
