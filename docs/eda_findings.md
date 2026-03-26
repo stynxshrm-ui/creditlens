@@ -6,7 +6,19 @@ across 2007–2018 vintages. After removing ambiguous loan statuses
 default rate of 11.9%.
 
 ---
+## Scoring System Validation
 
+Credit score direction confirmed correct:
+- Low-risk borrower (avg payment ratio 2.0, DTI 13.66):
+  pd_score 0.052, credit_score 768, tier B
+- High-risk borrower (avg payment ratio 1.07, DTI 28):
+  pd_score 0.771, credit_score 649, tier E
+
+Higher credit score = lower default risk.
+Score range 300-850 aligned with FICO convention.
+PDO = 20 (industry standard).
+
+---
 ## Finding 1 — Vintage Effects Reveal Right-Censoring
 
 Default rates vary significantly across origination years:

@@ -62,13 +62,20 @@ SCORECARD_FEATURES = [
 
 
 def log_odds_to_score(log_odds: np.ndarray) -> np.ndarray:
-    """Convert logistic regression log-odds to scorecard points."""
-    return OFFSET + FACTOR * log_odds
+    """
+    Convert log-odds of DEFAULT to scorecard points.
+    Negated so higher score = lower risk (credit convention).
+    
+    log_odds here = log(p(bad)/p(good)) from model output
+    Credit convention: odds = p(good)/p(bad) — flipped
+    Therefore negate before scaling.
+    """
+    return OFFSET + FACTOR * (-log_odds)
 
 
 def score_to_pd(score: np.ndarray) -> np.ndarray:
     """Convert scorecard points back to probability of default."""
-    log_odds = (score - OFFSET) / FACTOR
+    log_odds = -(score - OFFSET) / FACTOR    # negate — reverse the flip
     return 1 / (1 + np.exp(log_odds))
 
 
