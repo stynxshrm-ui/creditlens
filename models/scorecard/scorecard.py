@@ -33,7 +33,8 @@ from models.scorecard.evaluate import evaluate_model, plot_calibration, plot_ks
 # Maps log-odds to 300-850 point range
 # PDO = Points to Double Odds (industry standard: 20)
 BASE_SCORE = 600
-BASE_ODDS  = 1 / 19    # ~5% default rate at base score
+BASE_ODDS  = 19     # p(good)/p(bad) at base score — credit convention
+                    # 19:1 good:bad odds = 5% default rate
 PDO        = 20        # 20 points doubles the odds
 
 FACTOR = PDO / np.log(2)
