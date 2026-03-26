@@ -77,7 +77,7 @@ def log_odds_to_score(log_odds: np.ndarray) -> np.ndarray:
 def score_to_pd(score: np.ndarray) -> np.ndarray:
     """Convert scorecard points back to probability of default."""
     log_odds = -(score - OFFSET) / FACTOR    # negate — reverse the flip
-    return 1 / (1 + np.exp(log_odds))
+    return 1 / (1 + np.exp(-log_odds))
 
 
 class CreditScorecard:
