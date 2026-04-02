@@ -1,0 +1,43 @@
+{
+  "scenario": "Stable - No Drift",
+  "timestamp": "2026-04-02T15:45:11.154476",
+  "reference_size": 10000,
+  "current_size": 1000,
+  "monitored_features": [
+    "dti",
+    "annual_income",
+    "revol_util",
+    "loan_amount",
+    "delinq_2yrs",
+    "open_acc"
+  ],
+  "results": {
+    "dti": {
+      "psi": 0.0066,
+      "status": "STABLE"
+    },
+    "annual_income": {
+      "psi": 0.0086,
+      "status": "STABLE"
+    },
+    "revol_util": {
+      "psi": 0.0184,
+      "status": "STABLE"
+    },
+    "loan_amount": {
+      "psi": 0.0225,
+      "status": "STABLE"
+    },
+    "delinq_2yrs": {
+      "psi": 0.0031,
+      "status": "STABLE"
+    },
+    "open_acc": {
+      "psi": 0.027,
+      "status": "STABLE"
+    }
+  },
+  "retrain_features": [],
+  "monitor_features": [],
+  "recommendation": "STABLE"
+}

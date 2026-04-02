@@ -390,8 +390,8 @@ def main():
     In production, this would be triggered by a scheduler (cron, Airflow, etc.)
     """
     # Configuration
-    db_path = '/home/claude/data/creditlens.duckdb'  # Adjust path
-    output_dir = Path('/home/claude/pipeline_output')
+    db_path = './data/creditlens.duckdb'  # Adjust path
+    output_dir = Path('./pipeline_output')
     
     # Initialize and run pipeline
     pipeline = MonthlyRefreshPipeline(

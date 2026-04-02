@@ -269,7 +269,7 @@ def main():
     print(f"Execution time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 70)
     
-    output_dir = Path('/home/claude/drift_test_output')
+    output_dir = Path('./drift_test_output')
     
     # Generate datasets
     print("\nGenerating datasets...")

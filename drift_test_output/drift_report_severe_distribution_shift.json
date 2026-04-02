@@ -1,0 +1,48 @@
+{
+  "scenario": "Severe Distribution Shift",
+  "timestamp": "2026-04-02T15:45:11.197033",
+  "reference_size": 10000,
+  "current_size": 1000,
+  "monitored_features": [
+    "dti",
+    "annual_income",
+    "revol_util",
+    "loan_amount",
+    "delinq_2yrs",
+    "open_acc"
+  ],
+  "results": {
+    "dti": {
+      "psi": 0.4115,
+      "status": "RETRAIN"
+    },
+    "annual_income": {
+      "psi": 0.2029,
+      "status": "MONITOR"
+    },
+    "revol_util": {
+      "psi": 1.9315,
+      "status": "RETRAIN"
+    },
+    "loan_amount": {
+      "psi": 0.013,
+      "status": "STABLE"
+    },
+    "delinq_2yrs": {
+      "psi": 0.0036,
+      "status": "STABLE"
+    },
+    "open_acc": {
+      "psi": 0.0129,
+      "status": "STABLE"
+    }
+  },
+  "retrain_features": [
+    "dti",
+    "revol_util"
+  ],
+  "monitor_features": [
+    "annual_income"
+  ],
+  "recommendation": "RETRAIN"
+}
