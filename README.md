@@ -464,7 +464,6 @@ MIT License - see LICENSE file for details
 ## Contact
 
 **Satyan Sharma**  
-[Email] • [LinkedIn] • [Portfolio]
 
 *Built as a portfolio project for Data Scientist and ML Engineer in fintech/credit.*
 
