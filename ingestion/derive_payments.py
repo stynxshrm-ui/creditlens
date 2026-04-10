@@ -111,7 +111,7 @@ def main():
     print(f"  {len(df):,} loans to expand")
 
     print("Deriving monthly panel (this takes a minute)...")
-    panel = derive_monthly_panel(df)
+    panel = derive_monthly_panel(df, max_months=6)
 
     print(f"  Panel shape: {panel.shape}")
     print(f"  Months per loan (avg): {len(panel) / len(df):.1f}")
