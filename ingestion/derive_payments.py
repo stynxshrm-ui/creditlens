@@ -2,6 +2,7 @@
 ingestion/derive_payments.py
 
 Derives a monthly payment panel from Lending Club's cumulative payment fields.
+If max_months provided, only generate up to that many months.
 
 Lending Club's public dataset does not provide month-by-month payment history.
 We approximate monthly behaviour by:
@@ -53,7 +54,7 @@ def parse_dates(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def derive_monthly_panel(df: pd.DataFrame) -> pd.DataFrame:
+def derive_monthly_panel(df: pd.DataFrame, max_months: int = None) -> pd.DataFrame:
     """
     Build one row per loan per month of term.
     Estimate payment behaviour from cumulative fields.
@@ -77,7 +78,10 @@ def derive_monthly_panel(df: pd.DataFrame) -> pd.DataFrame:
         # Uniform payment across active months
         per_month_payment = total_pymnt / active_months if active_months > 0 else 0
 
-        for month_num in range(1, term + 1):
+        # Determine how many months to generate
+        end_month = min(term, max_months) if max_months else term
+
+        for month_num in range(1, end_month + 1):
             month_date      = issue + relativedelta(months=month_num - 1)
             is_active       = month_num <= active_months
             est_payment     = per_month_payment if is_active else 0.0
