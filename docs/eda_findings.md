@@ -134,7 +134,7 @@ one modelling approach.
 | Model | Gini | KS | Calibration Error |
 |---|---|---|---|
 | WoE Scorecard (champion) | 0.7527 | 0.5969 | 0.0136 |
-| PyTorch Neural Net | 0.7236 | 0.5458 | 0.0162 |
+| PyTorch Neural Net | 0.7032 | 0.5257 | 0.0119 |
 | XGBoost (challenger) | 0.8496 | 0.6978 | 0.0188 |
 
 XGBoost enters shadow deployment — Gini delta +0.0969 vs champion.
