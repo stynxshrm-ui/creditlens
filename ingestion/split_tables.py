@@ -9,7 +9,6 @@ engineering and multi-table SQL joins in DuckDB.
 Tables produced:
     loans       — static loan characteristics at origination
     borrowers   — borrower bureau snapshot at origination
-    payments    — derived monthly payment behaviour
     outcomes    — default label and recovery information
 
 Usage:
