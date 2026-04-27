@@ -22,12 +22,10 @@ import os
 def integrated_monthly_pipeline():
     """
     Complete monthly workflow: drift detection → agentic investigation.
-    
-    This demonstrates the Week 7 → Week 8 integration.
     """
     print("=" * 70)
     print("CreditLens Integrated Monthly Pipeline")
-    print("Week 7 (Drift Detection) → Week 8 (Agentic Reporter)")
+    print("Drift Detection -> Agentic Reporter")
     print("=" * 70)
     print(f"\nExecution time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("-" * 70)
@@ -36,7 +34,7 @@ def integrated_monthly_pipeline():
     # WEEK 7: Drift Detection
     # ========================================
     
-    print("\n[WEEK 7] Running drift detection pipeline...")
+    print("\nRunning drift detection pipeline...")
     print("-" * 70)
     
     # In production, import from actual modules:
@@ -72,7 +70,7 @@ def integrated_monthly_pipeline():
     print(f"  PSI - Revol Util: {drift_summary['psi_values']['revol_util']:.3f}")
     
     # Save drift report
-    drift_report_dir = Path('/home/claude/integrated_output/drift_reports')
+    drift_report_dir = Path('outputs/drift_reports')
     drift_report_dir.mkdir(parents=True, exist_ok=True)
     
     drift_report_path = drift_report_dir / f"drift_report_{datetime.now().strftime('%Y%m%d')}.json"
@@ -104,7 +102,7 @@ def integrated_monthly_pipeline():
     # WEEK 8: Agentic Reporter
     # ========================================
     
-    print("\n[WEEK 8] Initializing agentic reporter...")
+    print("\nInitializing agentic reporter...")
     print("-" * 70)
     
     # Check for API key
@@ -182,7 +180,7 @@ Generate a clear, actionable report."""
     # Save report
     report_path = agent.save_report(
         report,
-        output_dir=Path('/home/claude/integrated_output/agent_reports'),
+        output_dir=Path('../outputs/agent_reports'),
         report_type='monthly'
     )
     
