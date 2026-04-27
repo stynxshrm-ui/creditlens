@@ -338,7 +338,7 @@ def demo_monthly_report():
     
     tools = CreditLensTools(
         db_path='/tmp/demo.duckdb',
-        drift_reports_dir=Path('/home/claude/drift_test_output')
+        drift_reports_dir=Path('docs/drift_reports')
     )
     
     # Initialize agent
@@ -359,7 +359,7 @@ def demo_monthly_report():
     # Save report
     agent.save_report(
         report,
-        output_dir=Path('/home/claude/agent_reports'),
+        output_dir=Path('docs/agent_reports'),
         report_type='monthly'
     )
 

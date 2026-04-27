@@ -7,7 +7,7 @@ This demonstrates the ACTUAL data flow in production:
 3. Run PSI drift detection
 4. Generate reports
 
-Previous demos used synthetic data. This uses real DuckDB queries.
+Uses synthetic data while leveraging real DuckDB queries.
 """
 
 import duckdb
@@ -106,10 +106,7 @@ def create_sample_credit_database():
         })
     
     # Insert reference data
-    conn.execute("DELETE FROM loans WHERE issue_date < '2017-04-01'")
-    conn.execute("DELETE FROM borrowers WHERE loan_id LIKE 'LC_REF_%'")
-    conn.execute("DELETE FROM outcomes WHERE loan_id LIKE 'LC_REF_%'")
-    
+   
     conn.executemany("INSERT INTO loans VALUES (?, ?, ?, ?, ?, ?, ?)", 
                      [(r['loan_id'], r['issue_date'], r['loan_amount'], r['term'], 
                        r['grade'], r['sub_grade'], r['purpose']) for r in ref_loans])
@@ -164,10 +161,6 @@ def create_sample_credit_database():
         })
     
     # Insert current data
-    conn.execute("DELETE FROM loans WHERE issue_date >= '2026-03-01'")
-    conn.execute("DELETE FROM borrowers WHERE loan_id LIKE 'LC_CURR_%'")
-    conn.execute("DELETE FROM outcomes WHERE loan_id LIKE 'LC_CURR_%'")
-    
     conn.executemany("INSERT INTO loans VALUES (?, ?, ?, ?, ?, ?, ?)", 
                      [(r['loan_id'], r['issue_date'], r['loan_amount'], r['term'], 
                        r['grade'], r['sub_grade'], r['purpose']) for r in curr_loans])
