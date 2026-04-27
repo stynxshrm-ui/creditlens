@@ -301,7 +301,7 @@ def run_drift_detection_with_duckdb(db_path: str):
     4. Generate drift report
     """
     print("=" * 70)
-    print("Week 7: Drift Detection with DuckDB Integration")
+    print("Drift Detection with DuckDB Integration")
     print("=" * 70)
     
     # Step 1: Query reference data
@@ -430,14 +430,14 @@ def main():
     report = run_drift_detection_with_duckdb(db_path)
     
     print("\n" + "=" * 70)
-    print("Integration with Week 8")
+    print("Integration with Agentic Reporter")
     print("=" * 70)
     print("\nThis drift report would now feed into the agentic reporter:")
     print("  1. Agent reads drift_report_*.json")
     print("  2. Sees retrain_features:", report['retrain_features'])
     print("  3. Investigates using tools (get_psi_report, get_vintage_cohort, etc.)")
     print("  4. Generates plain-English monthly report")
-    print("\nSee: integrated_pipeline.py for full Week 7 → Week 8 workflow")
+    print("\nSee: integrated_pipeline.py for full workflow")
     print("=" * 70)
 
 
